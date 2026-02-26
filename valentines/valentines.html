@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>valentines</title>
+        <link rel="stylesheet" href="https://use.typekit.net/jwq0yfh.css">
+        <link rel="stylesheet" href="valstyles.css">
+        <div class="container">
+    </head>
+    <body>
+        <div class="card1">
+            <img src="card1.png" class="card1">
+            <img src="card1open.png" class="card1open" alt="Hover Image">
+        </div>
+        <div class="card2">
+            <img src="card2.png" alt="Card 2">
+            <img src="card2open.png" class="card2open" alt="Hover Image">
+        </div>
+        <div class="card3">
+            <img src="card3.png" alt="Card 3">
+            <img src="card3open.png" class="card3open" alt="Hover Image">
+        </div>
+        <div class="card4">
+            <img src="card4.png" alt="Card 4">
+            <img src="card4open.png" class="card4open" alt="Hover Image">
+        </div>
+        <div class="card6">
+            <img src="card6.png" alt="Card 6">
+            <img src="card6open.png" class="card6open" alt="Hover Image">
+        </div>
+        <div class="card5">
+            <img src="card5.png" alt="Card 5">
+            <img src="card5open.png" class="card5open" alt="Hover Image">
+        </div>
+
+        <p class="mail-text" id="mail-text">You've got mail!</p>
+        <script>
+          (function () {
+            var el = document.getElementById('mail-text');
+            var text = el.textContent;
+            var delay = 0.08;
+            el.innerHTML = text.split('').map(function (char, i) {
+              var d = (i * delay).toFixed(2);
+              return '<span class="mail-char" style="animation-delay: ' + d + 's">' + (char === ' ' ? '&nbsp;' : char) + '</span>';
+            }).join('');
+          })();
+        </script>
+        <script>
+            document.body.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    window.location.href = "../index.html";
+                }
+            });
+        </script>
+        <p class="loved-text">you are loved</p>
+    </body>
+</html>

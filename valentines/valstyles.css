@@ -1,0 +1,278 @@
+html, body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  background-color: bisque;
+}
+
+.container {
+  background-color: bisque;
+}
+
+.mail-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #000;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.mail-text .mail-char {
+  opacity: 0;
+  animation: type-in 0.01s ease-out forwards;
+}
+
+@keyframes type-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.card1 {
+        position: relative;
+        height: 78.75vh;
+        width: 23.625vw;
+        left: 15px;
+        top: -75px;
+        display: inline-block;
+      }
+      
+      .card1 img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        transition: opacity 0.3s ease-in-out;
+      }
+      
+      .card1open {
+        opacity: 0;
+      }
+      
+      .card1:hover .card1open {
+        height: 87.75vh;
+        left: -4px;
+        width: 29.25vw;
+        top: 0;
+        opacity: 1;
+      }
+
+
+
+.card2 {
+        position: absolute;
+        height: 35.2vh;
+        width: 22.4vw;
+        left: calc(50% + 250px);
+        top: 3vh;
+        transform: translateX(-50%);
+        display: inline-block;
+        cursor: pointer;
+      }
+      
+      .card2 img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 86%;
+        height: 86%;
+        transform: translate(-50%, -50%);
+        object-fit: contain;
+        object-position: center center;
+        transition: opacity 0.3s ease-in-out;
+      }
+      
+      .card2open {
+        opacity: 0;
+        top: 0;
+        left: 0;
+      }
+      
+      .card2:hover .card2open {
+        width: 200%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        transform: none;
+        object-fit: cover;
+        object-position: left center;
+        opacity: 1;
+        z-index: 999;
+      }
+      .card3 {
+        position: relative;
+        height: 60vh;
+        width: 18vw;
+        left: 65px;
+        top: 50px;
+        display: inline-block;
+        vertical-align: top;
+      }
+      
+      .card3 img {
+        position: absolute;
+        top: -42px;
+        left: 0;
+        width: 100%;
+        height: auto;
+        transition: opacity 0.3s ease-in-out;
+      }
+      
+      .card3open {
+        opacity: 0;
+        top: 80px;
+        width: 36vw;
+      }
+      
+      .card3:hover .card3open {
+        bottom: 50px;
+        width: 33.6vw;
+        opacity: 1;
+      }
+
+.card4 {
+  position: absolute;
+  height: 35vh;
+  width: 22.5vw;
+  left: 20px;
+  top: calc(50% + 150px);
+  transform: translateY(-50%);
+  display: block;
+  z-index: 10;
+}
+      
+      .card4 img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 35vh;
+        object-fit: contain;
+        object-position: center center;
+        transition: opacity 0.3s ease-in-out;
+      }
+      
+      .card4open {
+        opacity: 0;
+        top: 0;
+        left: 0;
+      }
+      
+      .card4:hover .card4open {
+        height: 35vh;
+        left: 0;
+        top: 0;
+        width: 200%;
+        object-fit: contain;
+        object-position: left center;
+        opacity: 1;
+      }
+      .card5 {
+        position: relative;
+        height: 105vh;
+        width: 67.5vw;
+        left: calc(72vw - 150px);
+        top: -625px;
+        display: block;
+        z-index: 20;
+        pointer-events: auto;
+      }
+      
+      .card5 img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 105vh;
+        object-fit: contain;
+        object-position: left top;
+        transition: opacity 0.3s ease-in-out;
+      }
+      
+      .card5 img:first-of-type {
+        opacity: 1;
+      }
+      
+      .card5open {
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 105vh;
+        object-fit: contain;
+        object-position: left top;
+      }
+      
+      .card5:hover .card5open {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 105vh;
+        object-fit: contain;
+        object-position: left top;
+        opacity: 1;
+      }
+      .card6 {
+        position: relative;
+        height: 35vh;
+        width: 22.5vw;
+        left: calc(55vw - 300px);
+        top: -180px;
+        display: block;
+        z-index: 25;
+      }
+      
+      .card6 img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 35vh;
+        object-fit: contain;
+        object-position: center center;
+        transition: opacity 0.3s ease-in-out;
+      }
+      
+      .card6 img:first-of-type {
+        opacity: 1;
+      }
+      
+      .card6open {
+        opacity: 0;
+        top: 0;
+        left: 0;
+      }
+      
+      .card6:hover .card6open {
+        height: 35vh;
+        left: 0;
+        top: 0;
+        width: 200%;
+        object-fit: contain;
+        object-position: left center;
+        opacity: 1;
+      }
+      .loved-text {
+        position: absolute;
+        left: 50%;
+        bottom: 2vh;
+        transform: translateX(-50%);
+        margin: 0;
+        font-family: "Courier New", Courier, monospace;
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        color: #000;
+        z-index: 10;
+      }
+      .p {
+        font-family:
+      }

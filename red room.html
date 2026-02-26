@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Red Room</title>
+    <link rel="stylesheet" href="red room.css">
+</head>
+<body>
+    <div class="remote-cursor" aria-hidden="true"></div>
+    <p class="typewriter-text">Flip the channel, my show is on!</p>
+    <div class="tv-wrapper">
+        <div class="tv-frame" aria-hidden="true"></div>
+        <button type="button" class="tv-button" aria-label="Change channel"></button>
+        <video class="tv-video tv-video-back" controls autoplay muted loop playsinline>
+            <source src="twin peaks vid.mp4" type="video/mp4">
+        </video>
+        <video class="tv-video tv-video-front" controls autoplay muted loop playsinline>
+            <source src="bjork vid.mp4" type="video/mp4">
+        </video>
+        <video class="tv-video tv-video-cowbell" controls autoplay muted loop playsinline>
+            <source src="cowbell.mp4" type="video/mp4">
+        </video>
+        <video class="tv-video tv-video-mrfox" controls autoplay muted loop playsinline>
+            <source src="mr fox.mp4" type="video/mp4">
+        </video>
+    </div>
+    <script>
+        (function () {
+            var wrapper = document.querySelector(".tv-wrapper");
+            var btn = document.querySelector(".tv-button");
+            var videos = [
+                document.querySelector(".tv-video-back"),
+                document.querySelector(".tv-video-front"),
+                document.querySelector(".tv-video-cowbell"),
+                document.querySelector(".tv-video-mrfox")
+            ];
+            var channel = 0;
+            var reaperAudio = new Audio("reaper.mp3");
+            var twinPeaksAudio = new Audio("twin peaks.mp3");
+            var mrFoxAudio = new Audio("mr fox.mp3");
+            var bjorkAudio = new Audio("bjork pj.mp4");
+
+            videos[0].addEventListener("play", function () {
+                twinPeaksAudio.currentTime = 0;
+                twinPeaksAudio.play();
+            });
+            videos[0].addEventListener("pause", function () {
+                twinPeaksAudio.pause();
+                twinPeaksAudio.currentTime = 0;
+            });
+
+            if (!videos[0].paused) {
+                twinPeaksAudio.currentTime = 0;
+                twinPeaksAudio.play();
+            }
+
+            videos[1].addEventListener("play", function () {
+                bjorkAudio.currentTime = 0;
+                bjorkAudio.play();
+            });
+            videos[1].addEventListener("pause", function () {
+                bjorkAudio.pause();
+                bjorkAudio.currentTime = 0;
+            });
+
+            videos[2].addEventListener("play", function () {
+                reaperAudio.currentTime = 0;
+                reaperAudio.play();
+            });
+            videos[2].addEventListener("pause", function () {
+                reaperAudio.pause();
+                reaperAudio.currentTime = 0;
+            });
+
+            videos[3].addEventListener("play", function () {
+                mrFoxAudio.currentTime = 0;
+                mrFoxAudio.play();
+            });
+            videos[3].addEventListener("pause", function () {
+                mrFoxAudio.pause();
+                mrFoxAudio.currentTime = 0;
+            });
+
+            btn.addEventListener("click", function () {
+                var wasTwinPeaks = (channel === 0);
+                var wasBjork = (channel === 1);
+                var wasCowbell = (channel === 2);
+                var wasMrFox = (channel === 3);
+                videos[channel].pause();
+                if (wasTwinPeaks) {
+                    twinPeaksAudio.pause();
+                    twinPeaksAudio.currentTime = 0;
+                }
+                if (wasBjork) {
+                    bjorkAudio.pause();
+                    bjorkAudio.currentTime = 0;
+                }
+                if (wasCowbell) {
+                    reaperAudio.pause();
+                    reaperAudio.currentTime = 0;
+                }
+                if (wasMrFox) {
+                    mrFoxAudio.pause();
+                    mrFoxAudio.currentTime = 0;
+                }
+                channel = (channel + 1) % 4;
+                wrapper.classList.remove("channel-0", "channel-1", "channel-2", "channel-3");
+                wrapper.classList.add("channel-" + channel);
+                videos[channel].play();
+                if (channel === 0) {
+                    twinPeaksAudio.currentTime = 0;
+                    twinPeaksAudio.play();
+                }
+                if (channel === 1) {
+                    bjorkAudio.currentTime = 0;
+                    bjorkAudio.play();
+                }
+                if (channel === 2) {
+                    reaperAudio.currentTime = 0;
+                    reaperAudio.play();
+                }
+                if (channel === 3) {
+                    mrFoxAudio.currentTime = 0;
+                    mrFoxAudio.play();
+                }
+            });
+        })();
+
+        (function () {
+            var cursor = document.querySelector(".remote-cursor");
+            document.body.addEventListener("mousemove", function (e) {
+                cursor.style.left = e.clientX + "px";
+                cursor.style.top = e.clientY + "px";
+            });
+        })();
+        document.body.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                window.location.href = "index.html";
+            }
+        });
+    </script>
+</body>
+</html>

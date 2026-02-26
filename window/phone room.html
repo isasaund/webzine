@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phone Room</title>
+    <link rel="stylesheet" href="phone room.css">
+</head>
+<body>
+    <div class="phone-wheel-wrap">
+        <img src="blackphone.png" class="blackphone-img" alt="Phone" id="blackphone" role="button" tabindex="0" aria-label="Play voicemail">
+        <div class="wheel-center-wrap">
+            <img src="../wheel.png" class="wheel-img" alt="">
+        </div>
+    </div>
+    <div id="typewriter-box" class="typewriter-box" aria-live="polite" hidden>
+        <p id="typewriter-text" class="typewriter-text"></p><span class="typewriter-cursor" aria-hidden="true">|</span>
+    </div>
+    <script>
+        (function () {
+            var MAY_TEXT = "HEY. Get up! Do you want to go to Trader Joe's with meeee? They have all their fall stuff out and I really want to get some flowers. Okayyy love you text me back I love youuuu!!!";
+            var ANNA_TEXT = "Is this a voicemail? Did it start? Hello Isa. What question did you have for Isa? I didn't have a question. Come on. Diego wants a cigarette. No, that wasn't my question, I was just- Isa, Diego wants you to bring a cigarette soooooo bad. ACTUALLY that wasn't my idea, that was Caden's idea. He's lying, he's lying. I said I want a cigarette and they said \"oop! Isa will have one!\" Everyone said that simultaneously except for me, and that was not my idea. And then he said \"oh my God, call Isa. We can call her now.\" No, I said call her and you said I'll text her and I said no call her. Yeah yeah yeah yeah. So that's like the same thing I just said. (indecipherable) What? OK. We'll see you soon I miss you OK? OK!";
+            var LUCY_TEXT = "ISABELLE?                          .....     ISABELLE.    ..  bitch";
+            var GRANDPA_TEXT = "Hey sweetheart! Just wanted to call you and wish you a happy birthday honey. Love you babe I hope you have a great day. Talk to you later, bye";
+            var GRANDMA_TEXT = "Hi Isabelle, this is your grandma, Debbie. I just wanted to check and see how you are. Just give me a call when you get a chance. I sure love you baby";
+            var POTTERY_TEXT = "Hi this is Bonnie at Seize the Clay and I just wanted to let you know your pottery piece is available to be picked up. Thank you, bye.";
+            var CAROL_TEXT = "Get up get up get up you gotta get up get dressed get up. Cause winners never quit and quitters never win. There's no more giving up and there's no more giving in........ get up get up get up PLEASEEE I wanna smoke a cigar. OK byeee";
+            var RANSOM_TEXT = "Uhhh Isabelle this is Ransom andddd Dad said that he put the gallon of paint the gallon of paint that was in the back of the car in the uhhhhh whatcham- the uhhhhhhh closet that has the vacuum cleaner in it, so go get it";
+            var SUBARU_TEXT = "Yes Miss Saunders this is John Syler from Jim Keras Subaru, I spoke to y'all over the weekend about the '14 Subaru crosstrek we got in that was in service and couldn't be driven yet. It's out of service now so we're gonna get it cleaned up and ready to sell. If you're still in the market, give me a call back at ********** and it should be out of detail and ready to drive by tomorrow. Give me a call back. Thanks, bye.";
+            var DOCTOR_TEXT = "Hellooo, this is Dr. Coplon -- Debra Coplon -- if you could just give me a call back, I'll try to call you back in a few minutes. I know it said you're not feeling well, but I certainly will try to help you out. Let's see -- I'm just in your chart, looking for your pharmacy. I'll call you back, Isabelle.";
+            var CAR_CRASH_TEXT = "Hi, my name is Jeff Kay and my son was at work at Libra and I think you may have scratched the side of his car and I really appreciate you leaving a note with your phone number and so I was just reaching out to you, you can reach me at ********** and once again my name is Jeff. Thanks.";
+            var tracks = [
+                "../pottery.mp3", "../ransom.mp3", "../may.mp3", "../grandma.mp3", "../lucy.mp3",
+                "../car_crash.mp3", "../carol.mp3", "../anna.mp3", "../subaru.mp3", "../grandpa.mp3", "../doctor.mp3"
+            ];
+            var trackBag = [];
+            function pickRandomTrack() {
+                if (trackBag.length === 0) {
+                    trackBag = tracks.slice();
+                    for (var i = trackBag.length - 1; i > 0; i--) {
+                        var j = Math.floor(Math.random() * (i + 1));
+                        var t = trackBag[i];
+                        trackBag[i] = trackBag[j];
+                        trackBag[j] = t;
+                    }
+                }
+                return trackBag.pop();
+            }
+            var currentAudio = null;
+            var typewriterTimer = null;
+            var mayDelayTimer = null;
+            var annaDelayTimer = null;
+            var carolDelayTimer = null;
+            var doctorDelayTimer = null;
+            var subaruDelayTimer = null;
+            var grandpaDelayTimer = null;
+            var grandmaDelayTimer = null;
+            function startTypewriter(text, delayMs) {
+                delayMs = delayMs || 50;
+                var box = document.getElementById("typewriter-box");
+                var el = document.getElementById("typewriter-text");
+                var cursor = box.querySelector(".typewriter-cursor");
+                el.textContent = "";
+                box.hidden = false;
+                var i = 0;
+                function tick() {
+                    if (i <= text.length) {
+                        el.textContent = text.slice(0, i);
+                        i++;
+                        typewriterTimer = setTimeout(tick, delayMs);
+                    } else {
+                        if (cursor) cursor.style.visibility = "hidden";
+                    }
+                }
+                if (cursor) cursor.style.visibility = "visible";
+                tick();
+            }
+            function stopTypewriter() {
+                if (typewriterTimer) {
+                    clearTimeout(typewriterTimer);
+                    typewriterTimer = null;
+                }
+                if (mayDelayTimer) {
+                    clearTimeout(mayDelayTimer);
+                    mayDelayTimer = null;
+                }
+                if (annaDelayTimer) {
+                    clearTimeout(annaDelayTimer);
+                    annaDelayTimer = null;
+                }
+                if (carolDelayTimer) {
+                    clearTimeout(carolDelayTimer);
+                    carolDelayTimer = null;
+                }
+                if (doctorDelayTimer) {
+                    clearTimeout(doctorDelayTimer);
+                    doctorDelayTimer = null;
+                }
+                if (subaruDelayTimer) {
+                    clearTimeout(subaruDelayTimer);
+                    subaruDelayTimer = null;
+                }
+                if (grandpaDelayTimer) {
+                    clearTimeout(grandpaDelayTimer);
+                    grandpaDelayTimer = null;
+                }
+                if (grandmaDelayTimer) {
+                    clearTimeout(grandmaDelayTimer);
+                    grandmaDelayTimer = null;
+                }
+                var box = document.getElementById("typewriter-box");
+                box.hidden = true;
+                var cursor = box.querySelector(".typewriter-cursor");
+                if (cursor) cursor.style.visibility = "visible";
+            }
+            function playRandomTrack() {
+                stopTypewriter();
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                }
+                var src = pickRandomTrack();
+                currentAudio = new Audio(src);
+                if (src.indexOf("ransom.mp3") !== -1) {
+                    currentAudio.addEventListener("play", function onPlay() {
+                        currentAudio.removeEventListener("play", onPlay);
+                        startTypewriter(RANSOM_TEXT, 82);
+                    }, { once: true });
+                } else if (src.indexOf("car_crash.mp3") !== -1) {
+                    currentAudio.addEventListener("play", function onPlay() {
+                        currentAudio.removeEventListener("play", onPlay);
+                        startTypewriter(CAR_CRASH_TEXT, 68);
+                    }, { once: true });
+                } else if (src.indexOf("may.mp3") !== -1) {
+                    currentAudio.addEventListener("play", function onPlay() {
+                        currentAudio.removeEventListener("play", onPlay);
+                        mayDelayTimer = setTimeout(function () { startTypewriter(MAY_TEXT, 62); }, 5000);
+                    }, { once: true });
+                } else if (src.indexOf("pottery.mp3") !== -1) {
+                    currentAudio.volume = 1;
+                    currentAudio.addEventListener("play", function onPlay() {
+                        currentAudio.removeEventListener("play", onPlay);
+                        startTypewriter(POTTERY_TEXT, 68);
+                    }, { once: true });
+                } else if (src.indexOf("anna.mp3") !== -1) {
+                    currentAudio.volume = 1;
+                    currentAudio.addEventListener("play", function onPlay() {
+                        currentAudio.removeEventListener("play", onPlay);
+                        annaDelayTimer = setTimeout(function () { startTypewriter(ANNA_TEXT, 72); }, 2000);
+                    }, { once: true });
+                } else if (src.indexOf("lucy.mp3") !== -1) {
+                    currentAudio.addEventListener("play", function onPlay() {
+                        currentAudio.removeEventListener("play", onPlay);
+                        startTypewriter(LUCY_TEXT, 300);
+                    }, { once: true });
+                } else if (src.indexOf("grandpa.mp3") !== -1) {
+                    currentAudio.addEventListener("play", function onPlay() {
+                        currentAudio.removeEventListener("play", onPlay);
+                        grandpaDelayTimer = setTimeout(function () { startTypewriter(GRANDPA_TEXT, 68); }, 2000);
+                    }, { once: true });
+                } else if (src.indexOf("grandma.mp3") !== -1) {
+                    currentAudio.addEventListener("play", function onPlay() {
+                        currentAudio.removeEventListener("play", onPlay);
+                        grandmaDelayTimer = setTimeout(function () { startTypewriter(GRANDMA_TEXT, 68); }, 2000);
+                    }, { once: true });
+                } else if (src.indexOf("carol.mp3") !== -1) {
+                    currentAudio.addEventListener("play", function onPlay() {
+                        currentAudio.removeEventListener("play", onPlay);
+                        carolDelayTimer = setTimeout(function () { startTypewriter(CAROL_TEXT, 62); }, 4000);
+                    }, { once: true });
+                } else if (src.indexOf("subaru.mp3") !== -1) {
+                    currentAudio.volume = 1;
+                    currentAudio.addEventListener("play", function onPlay() {
+                        currentAudio.removeEventListener("play", onPlay);
+                        subaruDelayTimer = setTimeout(function () { startTypewriter(SUBARU_TEXT, 78); }, 3000);
+                    }, { once: true });
+                } else if (src.indexOf("doctor.mp3") !== -1) {
+                    currentAudio.addEventListener("play", function onPlay() {
+                        currentAudio.removeEventListener("play", onPlay);
+                        doctorDelayTimer = setTimeout(function () { startTypewriter(DOCTOR_TEXT, 68); }, 2000);
+                    }, { once: true });
+                }
+                currentAudio.play();
+            }
+            var wheelEl = document.querySelector(".wheel-img");
+            function spinWheel() {
+                if (wheelEl) {
+                    wheelEl.classList.remove("spin");
+                    wheelEl.offsetHeight;
+                    wheelEl.classList.add("spin");
+                    wheelEl.addEventListener("animationend", function onEnd() {
+                        wheelEl.removeEventListener("animationend", onEnd);
+                        wheelEl.classList.remove("spin");
+                    }, { once: true });
+                }
+            }
+            var phoneEl = document.getElementById("blackphone");
+            if (phoneEl) {
+                phoneEl.addEventListener("click", function () {
+                    spinWheel();
+                    playRandomTrack();
+                });
+                phoneEl.addEventListener("keydown", function (e) {
+                    if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        spinWheel();
+                        playRandomTrack();
+                    }
+                });
+            }
+        })();
+        document.body.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                window.location.href = "../index.html";
+            }
+        });
+    </script>
+</body>
+</html>

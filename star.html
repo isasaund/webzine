@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Star</title>
+    <link rel="stylesheet" href="star.css">
+</head>
+<body>
+    <div id="star-cursor" class="star-cursor" aria-hidden="true">
+      <span class="star"></span><span class="star"></span><span class="star"></span>
+      <span class="star"></span><span class="star"></span><span class="star"></span>
+      <span class="star"></span><span class="star"></span><span class="star"></span>
+      <span class="star"></span>
+    </div>
+    <div id="quill-cursor" class="quill-cursor" aria-hidden="true"></div>
+    <div class="wish-wrap">
+      <p class="wish-text">Wish upon a star.....</p>
+      <p class="wish-text-more" aria-live="polite">I am the Git Star. I existed before all other stars, and I am here to bring you your heart's desire.</p>
+    </div>
+    <div class="paper-zoom" aria-hidden="true">
+      <textarea class="paper-text" placeholder="Write your wish..." rows="6" aria-label="Write on the paper"></textarea>
+    </div>
+    <script>
+      (function () {
+        var starCursor = document.getElementById("star-cursor");
+        var quillCursor = document.getElementById("quill-cursor");
+        var targetX = 0, targetY = 0;
+        var currentX = 0, currentY = 0;
+        var velocityX = 0, velocityY = 0;
+        var stiffness = 0.12;
+        var damping = 0.88;
+        var rafId = null;
+
+        function tick() {
+          var dx = targetX - currentX;
+          var dy = targetY - currentY;
+          velocityX += dx * stiffness;
+          velocityY += dy * stiffness;
+          velocityX *= damping;
+          velocityY *= damping;
+          currentX += velocityX;
+          currentY += velocityY;
+          starCursor.style.left = currentX + "px";
+          starCursor.style.top = currentY + "px";
+          quillCursor.style.left = targetX + "px";
+          quillCursor.style.top = targetY + "px";
+          rafId = requestAnimationFrame(tick);
+        }
+
+        document.body.addEventListener("mousemove", function (e) {
+          targetX = e.clientX;
+          targetY = e.clientY;
+          if (rafId === null) rafId = requestAnimationFrame(tick);
+        });
+        document.body.addEventListener("mouseleave", function () {
+          starCursor.style.opacity = "0";
+          quillCursor.style.opacity = "0";
+        });
+        document.body.addEventListener("mouseenter", function () {
+          var onPaper = document.body.classList.contains("paper");
+          starCursor.style.opacity = onPaper ? "0" : "1";
+          quillCursor.style.opacity = onPaper ? "1" : "0";
+          targetX = currentX;
+          targetY = currentY;
+        });
+      })();
+      document.body.addEventListener("click", function () {
+        if (document.body.classList.contains("clicked")) {
+          document.body.classList.add("paper");
+          starCursor.style.opacity = "";
+          quillCursor.style.opacity = "";
+        } else {
+          document.body.classList.add("clicked");
+        }
+      });
+      document.body.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          window.location.href = "index.html";
+        }
+      });
+    </script>
+</body>
+</html>

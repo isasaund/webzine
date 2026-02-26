@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Attic</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            position: relative;
+            background: none;
+            font-family: "Eterne", serif;
+        }
+        .attic-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url("window/attic.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .black-overlay {
+            position: absolute;
+            inset: 0;
+            background: #000;
+            transition: opacity 2s ease-out;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .attic-message {
+            color: #e0e0e0;
+            font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+            text-align: center;
+            padding: 1em;
+            max-width: 20ch;
+            margin: 0;
+            transform: translateY(-200px);
+        }
+        .black-overlay.faded {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .rocking-horse {
+            position: absolute;
+            bottom: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+            transform-origin: 50% 100%;
+            max-width: min(67.5vw, 480px);
+            max-height: 67.5vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            pointer-events: none;
+            z-index: 2;
+            animation: rock 2.5s ease-in-out infinite;
+        }
+        @keyframes rock {
+            0%, 100% { transform: translateX(-50%) rotate(-6deg); }
+            50% { transform: translateX(-50%) rotate(6deg); }
+        }
+        .attic-reveal-text {
+            position: absolute;
+            top: 12%;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #fff;
+            font-family: "Eterne", serif;
+            font-size: clamp(3rem, 12vw, 6rem);
+            margin: 0;
+            padding: 0 1rem;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 1s ease-out 0.5s;
+        }
+        body.attic-revealed .attic-reveal-text {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="attic-bg" aria-hidden="true"></div>
+    <img src="window/rocking horse.png" class="rocking-horse" alt="" aria-hidden="true">
+    <p class="attic-reveal-text" aria-live="polite">Just me alone</p>
+    <div class="black-overlay" id="overlay" aria-label="Click to fade to attic">
+        <p class="attic-message">Nothing much up here. Just me.</p>
+    </div>
+    <script>
+        (function () {
+            var overlay = document.getElementById("overlay");
+            overlay.addEventListener("click", function () {
+                overlay.classList.add("faded");
+                setTimeout(function () {
+                    document.body.classList.add("attic-revealed");
+                }, 2000);
+            });
+        })();
+        document.body.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                window.location.href = "index.html";
+            }
+        });
+    </script>
+</body>
+</html>

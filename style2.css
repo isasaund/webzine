@@ -1,0 +1,18 @@
+@font-face {
+    font-family: "Eterne";
+    src: url("foonts/Eterne.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+  }
+
+body
+{
+	margin: 20px;
+	padding: 20px;
+	background-color: pink;
+	color: white;
+    font-family: "Eterne", sans-serif;
+    font-size: 100px;
+    text-align: center;
+    ]
+

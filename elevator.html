@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Elevator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+        }
+        .elevator-img {
+            max-width: 90vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+        .elevator-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .elevator-buttons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            background: #222;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .elevator-buttons a:hover {
+            background: #444;
+        }
+        .elevator-wrap {
+            position: relative;
+            overflow: hidden;
+        }
+        .elevator-img {
+            transition: none;
+        }
+        body.elevator-shoot .elevator-img {
+            animation: shoot-up 1.2s ease-in forwards;
+        }
+        body.elevator-fade .elevator-fade-overlay {
+            opacity: 1;
+        }
+        .elevator-fade-overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease-out;
+            z-index: 100;
+        }
+        @keyframes shoot-up {
+            to {
+                transform: translateY(-120vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="elevator-wrap">
+        <img src="elevator.png" class="elevator-img" alt="Elevator">
+    </div>
+    <div class="elevator-fade-overlay" aria-hidden="true"></div>
+    <div class="elevator-buttons">
+        <a href="window/phone room.html" aria-label="Floor 1 – Phone Room">1</a>
+        <a href="valentines/valentines.html" aria-label="Floor 2 – Valentines">2</a>
+        <a href="red room.html" aria-label="Floor 3 – Red Room">3</a>
+        <a href="attic-black.html" aria-label="Floor 4 – Attic">4</a>
+        <a href="window/window.html" aria-label="Floor 5 – Observatory">5</a>
+    </div>
+    <script>
+        (function () {
+            var links = document.querySelectorAll(".elevator-buttons a");
+            var overlay = document.querySelector(".elevator-fade-overlay");
+            var img = document.querySelector(".elevator-img");
+
+            links.forEach(function (a) {
+                a.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    var href = a.getAttribute("href");
+                    if (!href || document.body.classList.contains("elevator-shoot")) return;
+                    document.body.classList.add("elevator-shoot");
+                    img.addEventListener("animationend", function onEnd() {
+                        img.removeEventListener("animationend", onEnd);
+                        document.body.classList.add("elevator-fade");
+                        overlay.addEventListener("transitionend", function onFadeEnd() {
+                            overlay.removeEventListener("transitionend", onFadeEnd);
+                            window.location.href = href;
+                        }, { once: true });
+                    }, { once: true });
+                });
+            });
+
+            document.body.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    window.location.href = "index.html";
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

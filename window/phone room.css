@@ -1,0 +1,127 @@
+@font-face {
+  font-family: "Eterne";
+  src: url("../foonts/Eterne.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Eterne", serif;
+  background-image: url("red back.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.phone-wheel-wrap {
+  position: relative;
+  width: 650px;
+  height: 650px;
+  margin-top: 100px;
+  z-index: 1;
+}
+
+/* Wrapper centered without transform so it never moves */
+.wheel-center-wrap {
+  position: absolute;
+  left: calc(50% - 325px);
+  top: calc(50% - 325px);
+  width: 650px;
+  height: 650px;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Wheel centered in wrapper; only rotation is animated */
+.wheel-img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: auto;
+  height: 650px;
+  max-width: 650px;
+  object-fit: contain;
+  object-position: center center;
+  transform: translate(calc(-50% + 25px), calc(-50% - 100px)) scale(0.144);
+  transform-origin: center center;
+  pointer-events: none;
+}
+
+.wheel-img.spin {
+  animation: wheel-spin 5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes wheel-spin {
+  from {
+    transform: translate(calc(-50% + 25px), calc(-50% - 100px)) scale(0.144) rotate(0deg);
+  }
+  to {
+    transform: translate(calc(-50% + 25px), calc(-50% - 100px)) scale(0.144) rotate(360deg);
+  }
+}
+
+.blackphone-img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.blackphone-img {
+  height: 650px;
+  width: auto;
+  z-index: 1;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.typewriter-box {
+  position: fixed;
+  left: 50%;
+  top: 1.5rem;
+  transform: translateX(-50%);
+  max-width: min(90vw, 42em);
+  padding: 1rem 1.25rem;
+  background: rgba(255, 250, 250, 0.96);
+  color: #1a1a1a;
+  font-family: "Eterne", serif;
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  line-height: 1.5;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  border-radius: 0.5rem;
+}
+
+.typewriter-text {
+  margin: 0;
+  display: inline;
+}
+
+.typewriter-cursor {
+  display: inline;
+  animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.payphone-label {
+  margin: 0;
+  margin-top: 355px;
+  margin-left: -10px;
+  padding: 0.35em 0.6em;
+  font-family: "Eterne", serif;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: maroon;
+  background: white;
+  white-space: nowrap;
+}

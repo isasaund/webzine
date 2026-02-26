@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Window</title>
+    <link rel="stylesheet" href="windowstyles.css">
+</head>
+<body>
+    <div class="telescope-viewport">
+        <div class="telescope-circle">
+            <div id="bg1" class="bg-layer"></div>
+            <div id="bg2" class="bg-layer"></div>
+            <a id="star-link" class="star-link" href="../star.html" aria-hidden="true"><span id="star-layer" class="star-layer"></span></a>
+        </div>
+    </div>
+    <p class="git-star-hint">Keep a look out for the Git star! People say that this elusive star will grant the finder one wish.</p>
+
+    <div class="content">
+        <p><a href="../index.html">← Back to home</a></p>
+    </div>
+
+    <script>
+        const backgrounds = ['bg-sunrise', 'bg-night3', 'bg-night2', 'bg-one', 'bg-night-sky'];
+        const bgImageUrls = ['SUNRISE.png', 'night 3.png', 'night 2.png', '1.jpg', 'night sky.png'];
+        const FADE_DURATION_MS = 8000;
+        const bg1 = document.getElementById('bg1');
+        const bg2 = document.getElementById('bg2');
+        const starLink = document.getElementById('star-link');
+        let index = parseInt(sessionStorage.getItem('windowBgIndex') || '0', 10);
+        let nextStarAtIndex = parseInt(sessionStorage.getItem('windowNextStarAt') || String(Math.floor(Math.random() * backgrounds.length)), 10);
+
+        (function preloadBgImages() {
+            for (var i = 0; i < bgImageUrls.length; i++) {
+                var img = new Image();
+                img.src = bgImageUrls[i];
+            }
+        })();
+
+        function randomStarPosition() {
+            const top = 5 + Math.random() * 85;
+            const left = 5 + Math.random() * 85;
+            starLink.style.top = top + '%';
+            starLink.style.left = left + '%';
+            starLink.style.bottom = 'auto';
+            starLink.style.right = 'auto';
+        }
+
+        function nextIndex(i) { return (i + 1) % backgrounds.length; }
+
+        function updateSunriseText(forIndex) {
+            if (backgrounds[forIndex] === 'bg-sunrise') {
+                document.body.classList.add('show-sunrise-text');
+            } else {
+                document.body.classList.remove('show-sunrise-text');
+            }
+        }
+
+        function updateStarLayer(forIndex) {
+            if (forIndex === nextStarAtIndex) {
+                randomStarPosition();
+                document.body.classList.add('show-star');
+                nextStarAtIndex = (forIndex + 4 + Math.floor(Math.random() * 2)) % backgrounds.length;
+                sessionStorage.setItem('windowNextStarAt', String(nextStarAtIndex));
+            } else {
+                document.body.classList.remove('show-star');
+            }
+        }
+
+        function startFade() {
+            const next = nextIndex(index);
+            bg1.className = 'bg-layer ' + backgrounds[index];
+            bg2.className = 'bg-layer ' + backgrounds[next];
+            updateSunriseText(next);
+            updateStarLayer(next);
+            bg2.offsetHeight;
+            bg2.classList.add('fade-in');
+            bg2.addEventListener('transitionend', function onEnd() {
+                bg2.removeEventListener('transitionend', onEnd);
+                index = next;
+                sessionStorage.setItem('windowBgIndex', String(index));
+                bg2.classList.remove('fade-in');
+                bg1.className = 'bg-layer ' + backgrounds[index];
+                bg2.className = 'bg-layer ' + backgrounds[nextIndex(index)];
+                updateStarLayer(index);
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(startFade);
+                });
+            }, { once: true });
+        }
+
+        bg1.className = 'bg-layer ' + backgrounds[index];
+        updateSunriseText(index);
+        updateStarLayer(index);
+        setTimeout(startFade, 100);
+
+        document.body.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                window.location.href = "../index.html";
+            }
+        });
+    </script>
+</body>
+</html>
