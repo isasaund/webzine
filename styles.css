@@ -319,12 +319,12 @@
 }
 .mailboxes-center:has(.mailboxes-hitarea:hover) .mailboxes-img {
   transform: scale(0.51) rotate(-3deg);
-}
+  
 .hotel-caption {
   position: fixed;
-  top: calc(1.5rem + 150px);
+  top: 50%;
   left: 50%;
-  transform: translateX(calc(-50% + 850px));
+  transform: translate(-50%, -50%);
   margin: 0;
   font-family: "Eterne", serif;
   font-size: clamp(2rem, 5vw, 3.25rem);
